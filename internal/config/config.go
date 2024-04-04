@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"os"
 )
 
 type Config struct {
@@ -15,7 +16,13 @@ type Config struct {
 func (c *Config) LoadEnv() {
 	configContents, err := ioutil.ReadFile("configs/config.json")
 	if err != nil {
-		log.Fatal("error when opening config file: ", err)
+		configContents, err = ioutil.ReadFile(
+			"/etc/discord-role-bot/config.json",
+		)
+		if err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
 	}
 
 	err = json.Unmarshal(configContents, &c)

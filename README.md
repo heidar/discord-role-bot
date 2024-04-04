@@ -22,7 +22,10 @@ make install
 ```
 
 ## Configuration
-Copy `configs/config.json.example` to `configs/config.json`.
+Copy `configs/config.json.example` to `configs/config.json`. If you plan on
+running this on a server as a service, it will look for configs in
+`/etc/discord-role-bot/config.json` as well, if it fails to find it in the
+`configs` folder.
 
 ```
 cp configs/config.json.example configs/config.json
