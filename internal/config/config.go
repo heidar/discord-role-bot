@@ -7,6 +7,7 @@ import (
 
 type Config struct {
 	DiscordToken string
+	GuildID      string
 }
 
 func (c *Config) LoadEnv() {
@@ -16,4 +17,5 @@ func (c *Config) LoadEnv() {
 	}
 
 	c.DiscordToken = os.Getenv("DISCORD_TOKEN")
+	c.GuildID = os.Getenv("GUILD_ID")
 }
