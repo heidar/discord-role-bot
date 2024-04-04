@@ -8,11 +8,18 @@ The only dependency is Go. This has only been tested on Go 1.18.
 Clone the repository and build the project.
 
 ```
-go build ./cmd/discord-role-bot
+make
 ```
 
 This should give you an executable in the top level folder called
 `discord-role-bot`.
+
+## Installing
+The bot is by default installed to `/usr/local/bin`.
+
+```
+make install
+```
 
 ## Configuration
 Copy `configs/config.json.example` to `configs/config.json`.
@@ -94,6 +101,13 @@ foreground and needs to be backgrounded if desired.
 
 ## Logging
 Logs get written to stdout. If you have issues, check the logs first.
+
+## Uninstalling
+Use make to uninstall the bot.
+
+```
+make uninstall
+```
 
 ## FAQ
 The bot has all the permissions but still can't add my role, how come?
