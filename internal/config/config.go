@@ -1,8 +1,9 @@
 package config
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"log"
-	"os"
 )
 
 type Config struct {
@@ -11,11 +12,15 @@ type Config struct {
 }
 
 func (c *Config) LoadEnv() {
-	if _, err := os.Stat(".env"); os.IsNotExist(err) {
-		log.Fatal(err)
-		os.Exit(1)
+	configContents, err := ioutil.ReadFile("configs/config.json")
+	if err != nil {
+		log.Fatal("error when opening config file: ", err)
 	}
 
-	c.DiscordToken = os.Getenv("DISCORD_TOKEN")
-	c.GuildID = os.Getenv("GUILD_ID")
+	err = json.Unmarshal(configContents, &c)
+	if err != nil {
+		log.Fatal("error during json unmarshal: ", err)
+	}
+	log.Print(c.DiscordToken)
+	log.Print(c.GuildID)
 }

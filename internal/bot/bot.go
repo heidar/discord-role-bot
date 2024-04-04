@@ -26,20 +26,20 @@ func (b *bot) Start() {
 
 	discordSession, err := discordgo.New("Bot " + b.Config.DiscordToken)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("error creating discord sessions: ", err)
 		os.Exit(1)
 	}
 
 	err = discordSession.Open()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("error opening discord session: ", err)
 		os.Exit(1)
 	}
 
 	b.DiscordSession = discordSession
 	guild, err := b.DiscordSession.Guild(b.Config.GuildID)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("error looking up discord guild: ", err)
 		os.Exit(1)
 	}
 	b.Guild = guild
@@ -51,12 +51,12 @@ func reactionAddHandler(s *discordgo.Session, m *discordgo.MessageReactionAdd) {
 func addRole(userID string, roleName string) {
 	role, err := findRole(roleName)
 	if err != nil {
-		log.Print(err)
+		log.Print("error finding role: ", err)
 	}
 
 	err = Bot.DiscordSession.GuildMemberRoleAdd(Bot.Config.GuildID, userID, role.ID)
 	if err != nil {
-		log.Print(err)
+		log.Print("error adding role to user: ", err)
 	}
 }
 
