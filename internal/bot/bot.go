@@ -50,7 +50,10 @@ func (b *bot) Start() {
 	log.Print("ready for reactions")
 }
 
-func reactionAddHandler(s *discordgo.Session, m *discordgo.MessageReactionAdd) {
+func reactionAddHandler(
+	s *discordgo.Session,
+	m *discordgo.MessageReactionAdd,
+) {
 	roleID, err := lookupRoleID(m.MessageReaction, "added")
 	if err != nil {
 		log.Print(err)
@@ -59,13 +62,20 @@ func reactionAddHandler(s *discordgo.Session, m *discordgo.MessageReactionAdd) {
 }
 
 func addRole(userID, roleID string) {
-	err := Bot.DiscordSession.GuildMemberRoleAdd(Bot.Config.GuildID, userID, roleID)
+	err := Bot.DiscordSession.GuildMemberRoleAdd(
+		Bot.Config.GuildID,
+		userID,
+		roleID,
+	)
 	if err != nil {
 		log.Print("error adding role to user: ", err)
 	}
 }
 
-func reactionRemoveHandler(s *discordgo.Session, m *discordgo.MessageReactionRemove) {
+func reactionRemoveHandler(
+	s *discordgo.Session,
+	m *discordgo.MessageReactionRemove,
+) {
 	roleID, err := lookupRoleID(m.MessageReaction, "removed")
 	if err != nil {
 		log.Print(err)
@@ -74,13 +84,20 @@ func reactionRemoveHandler(s *discordgo.Session, m *discordgo.MessageReactionRem
 }
 
 func removeRole(userID, roleID string) {
-	err := Bot.DiscordSession.GuildMemberRoleRemove(Bot.Config.GuildID, userID, roleID)
+	err := Bot.DiscordSession.GuildMemberRoleRemove(
+		Bot.Config.GuildID,
+		userID,
+		roleID,
+	)
 	if err != nil {
 		log.Print("error removing role from user: ", err)
 	}
 }
 
-func lookupRoleID(reaction *discordgo.MessageReaction, action string) (string, error) {
+func lookupRoleID(
+	reaction *discordgo.MessageReaction,
+	action string,
+) (string, error) {
 	userID := reaction.UserID
 	messageID := reaction.MessageID
 	emoji := reaction.Emoji.Name
@@ -94,6 +111,7 @@ func lookupRoleID(reaction *discordgo.MessageReaction, action string) (string, e
 	if roleID, ok := Bot.Config.RoleConfig[messageID][emoji]; ok {
 		return roleID, nil
 	} else {
-		return "", fmt.Errorf("could not find role id for message id %v and emoji %v", messageID, emoji)
+		return "", fmt.Errorf("could not find role id for message "+
+			"id %v and emoji %v", messageID, emoji)
 	}
 }
