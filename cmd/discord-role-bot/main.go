@@ -8,19 +8,6 @@ import (
 )
 
 func main() {
-	file, err := os.OpenFile(
-		"logs/discord-role-bot.log",
-		os.O_RDWR|os.O_CREATE|os.O_APPEND,
-		0664,
-	)
-	if err != nil {
-		log.Fatal("error opening log file: ", err)
-		os.Exit(1)
-	}
-	defer file.Close()
-
-	log.SetOutput(file)
-
 	b := &bot.Bot
 	b.Start()
 	defer b.DiscordSession.Close()
