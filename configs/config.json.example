@@ -1,4 +1,9 @@
 {
   "discordToken": "disord-token",
-  "guildID": "guild-id"
+  "guildID": "guild-id",
+  "roleConfig": {
+    "message-id": {
+      "emoji": "role-id"
+    }
+  }
 }

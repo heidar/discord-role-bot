@@ -18,7 +18,7 @@ func main() {
 
 	log.SetOutput(file)
 
-	b := bot.Bot
+	b := &bot.Bot
 	b.Start()
 	defer b.DiscordSession.Close()
 

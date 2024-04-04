@@ -2,7 +2,6 @@ package bot
 
 import (
 	"discord-role-bot/internal/config"
-	"fmt"
 	"log"
 	"os"
 
@@ -43,29 +42,27 @@ func (b *bot) Start() {
 		os.Exit(1)
 	}
 	b.Guild = guild
+	b.DiscordSession.AddHandler(reactionAddHandler)
+
+	log.Print("ready for reactions")
 }
 
 func reactionAddHandler(s *discordgo.Session, m *discordgo.MessageReactionAdd) {
+	userID := m.MessageReaction.UserID
+	messageID := m.MessageReaction.MessageID
+	emoji := m.MessageReaction.Emoji.Name
+
+	log.Printf("added reaction: user: %v, message id: %v, emoji: %v",
+		userID,
+		messageID,
+		emoji)
+	roleID := Bot.Config.RoleConfig[messageID][emoji]
+	addRole(userID, roleID)
 }
 
-func addRole(userID string, roleName string) {
-	role, err := findRole(roleName)
-	if err != nil {
-		log.Print("error finding role: ", err)
-	}
-
-	err = Bot.DiscordSession.GuildMemberRoleAdd(Bot.Config.GuildID, userID, role.ID)
+func addRole(userID, roleID string) {
+	err := Bot.DiscordSession.GuildMemberRoleAdd(Bot.Config.GuildID, userID, roleID)
 	if err != nil {
 		log.Print("error adding role to user: ", err)
 	}
-}
-
-func findRole(name string) (*discordgo.Role, error) {
-	for _, role := range Bot.Guild.Roles {
-		if role.Name == name {
-			return role, nil
-		}
-	}
-
-	return nil, fmt.Errorf("could not find role with name: %s", name)
 }

@@ -9,6 +9,7 @@ import (
 type Config struct {
 	DiscordToken string
 	GuildID      string
+	RoleConfig   map[string]map[string]string
 }
 
 func (c *Config) LoadEnv() {
@@ -21,6 +22,4 @@ func (c *Config) LoadEnv() {
 	if err != nil {
 		log.Fatal("error during json unmarshal: ", err)
 	}
-	log.Print(c.DiscordToken)
-	log.Print(c.GuildID)
 }
